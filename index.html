@@ -1305,9 +1305,8 @@ function renderSlaBanner(data){
   el.innerHTML = `
     <div class="sla-banner ${cls}">
       <div class="left">
-        <div class="check">${pct===100?"✓":pct+"%"}</div>
+        <div class="check">${outside===0?"✓":"!"}</div>
         <div>
-          <div class="headline">${pct}% SLA Compliance</div>
           <div class="sub">${within} of ${measurable.length} tickets with a recorded SLA outcome were resolved within their maximum
           allowed hours for their severity (P0 ≤4h · P1 ≤24h · P2 ≤72h · P3 ≤120h working-day targets). Duration is measured per
           the uploaded workbook's own methodology — see Data &amp; Log tab for exactly what that means.</div>
