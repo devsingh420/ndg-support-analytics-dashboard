@@ -123,6 +123,12 @@ a{color:inherit;}
 .tabbtn:hover{color:var(--text);background:var(--panel2);}
 .tabbtn.active{color:#fff;background:var(--accent);box-shadow:0 2px 8px rgba(0,113,227,.25);}
 .tabbtn.active .n{color:#fff;background:rgba(255,255,255,.22);}
+.tabbtn.highlight{color:var(--danger);background:var(--danger-soft);border:1px solid var(--danger-soft);}
+.tabbtn.highlight .n{color:#fff;background:var(--danger);}
+.tabbtn.highlight:hover{background:var(--danger);color:#fff;}
+.tabbtn.highlight:hover .n{background:rgba(255,255,255,.25);}
+.tabbtn.highlight.active{color:#fff;background:var(--danger);box-shadow:0 2px 8px rgba(215,0,21,.28);border-color:var(--danger);}
+.tabbtn.highlight.active .n{color:var(--danger);background:#fff;}
 
 .sidenav-footer{margin-top:auto; padding-top:14px;}
 
@@ -502,7 +508,7 @@ footer.dashfoot{padding:28px 28px 44px;text-align:center;color:var(--text-faint)
   <div class="sidenav-tabs" id="tabbar">
     <button class="tabbtn active" data-tab="overview"><span class="n">01</span><span class="label">Overview</span></button>
     <button class="tabbtn" data-tab="business"><span class="n">02</span><span class="label">Business Case</span></button>
-    <button class="tabbtn" data-tab="ascend"><span class="n">03</span><span class="label">Ascend Summary</span></button>
+    <button class="tabbtn highlight" data-tab="ascend"><span class="n">03</span><span class="label">Ascend Summary</span></button>
     <button class="tabbtn" data-tab="volume"><span class="n">04</span><span class="label">Volume &amp; Trends</span></button>
     <button class="tabbtn" data-tab="sla"><span class="n">05</span><span class="label">SLA &amp; Resolution</span></button>
     <button class="tabbtn" data-tab="team"><span class="n">06</span><span class="label">Categories &amp; Team</span></button>
