@@ -420,6 +420,7 @@ footer.dashfoot{padding:28px 28px 44px;text-align:center;color:var(--text-faint)
 .bizstat .sub{font-size:11.5px;color:var(--text-faint);margin-top:7px;font-weight:600;}
 
 .narrative-card{background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:24px 26px;margin-bottom:18px;box-shadow:var(--shadow);}
+.narrative-card:hover .pngbtn{opacity:1;}
 .narrative-card h3{margin:0 0 12px;font-size:16px;font-weight:800;display:flex;align-items:center;gap:12px;}
 
 .narrative-card p{margin:0 0 12px;font-size:13.5px;line-height:1.7;color:var(--text);}
@@ -705,6 +706,30 @@ footer.dashfoot{padding:28px 28px 44px;text-align:center;color:var(--text-faint)
   <div class="narrative-card">
     <h3><span class="icon-wrap sm"><svg class="ic w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></span>Supporting a Team That's New to Shopify</h3>
     <p id="bizEnablement"></p>
+  </div>
+
+  <div class="narrative-card">
+    <div class="flex items-start justify-between gap-3" style="margin-bottom:12px;">
+      <h3 style="margin:0;"><span class="icon-wrap sm"><svg class="ic w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>Client-Set Priority Doesn't Track System Severity</h3>
+      <span class="pngbtn" data-chart="chartPrioritySeverity">PNG</span>
+    </div>
+    <p>Every ticket carries two independent labels: <b>Intrepid Priority</b>, set when the ticket is logged, and
+    <b>System Severity</b>, the team's own P0–P3 technical assessment. Comparing the two shows how often they disagree —
+    click any segment below to see the underlying tickets.</p>
+    <div class="chartbox" style="height:280px;"><canvas id="chartPrioritySeverity"></canvas></div>
+    <p class="disclaimer" id="prioritySeverityStat"></p>
+  </div>
+
+  <div class="narrative-card">
+    <div class="flex items-start justify-between gap-3" style="margin-bottom:12px;">
+      <h3 style="margin:0;"><span class="icon-wrap sm"><svg class="ic w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Fixes Are Fast — Release Timing Follows UAT and the Release Cycle</h3>
+      <span class="pngbtn" data-chart="chartFixVsRelease">PNG</span>
+    </div>
+    <p>The team's own fix turnaround (workbook Duration, active hours) is consistently fast across every severity. The gap to
+    total elapsed time is queue time plus client UAT/testing plus waiting for the next scheduled production release — not
+    slower development.</p>
+    <div class="chartbox" style="height:280px;"><canvas id="chartFixVsRelease"></canvas></div>
+    <p class="disclaimer" id="fixVsReleaseStat"></p>
   </div>
 </div>
 
@@ -1028,7 +1053,8 @@ const CHART_TITLES = {
   chartTopics:"Tickets by Category", chartByAssignee:"Tickets by Owner", chartResByEngineer:"Avg Resolution by Engineer",
   chartPriorityMonthly:"Production Tickets by Priority", chartPriorityWeekly:"Production Tickets by Priority",
   chartResolverMonthly:"Production Tickets by Resolver", chartResolverPie:"Resolver Split", chartResolverWeekly:"Production Tickets by Resolver",
-  chartOverallMonthly:"Overall Support Tickets", chartOverallWeekly:"Overall Support Tickets"
+  chartOverallMonthly:"Overall Support Tickets", chartOverallWeekly:"Overall Support Tickets",
+  chartPrioritySeverity:"Intrepid Priority vs System Severity", chartFixVsRelease:"Dev Fix Time vs Total Elapsed"
 };
 
 function ticketFooterCallback(items){
@@ -1375,6 +1401,8 @@ function render(){
   renderDataQuality(data);
   renderTable(data);
   renderBizCase(data);
+  renderPrioritySeverity(data);
+  renderFixVsRelease(data);
 }
 
 function renderSlaBanner(data){
@@ -1449,8 +1477,7 @@ function renderKPIs(data){
     ["Avg / Month", fmt1(perMonth), "", "tickets opened", ICONS.calendar],
   ];
   const slaKpis = [
-    ["SLA Compliance", fmtPct(slaPct), slaPct>=0.7?"good":(slaPct>=0.4?"warn":"bad"), measurable.length+" measurable", ICONS.shieldCheck],
-    ["Within SLA", fmtInt(withinSla), "good", "", ICONS.checkCircle],
+    ["Within SLA", fmtInt(withinSla), "good", measurable.length+" measurable", ICONS.checkCircle],
     ["Outside SLA", fmtInt(outsideSla), "bad", "", ICONS.alertTriangle],
     ["Median Duration", fmt1(median)+" hrs", "", "", ICONS.clock],
     ["Fastest Duration", fmt1(fastest)+" hrs", "good", "", ICONS.zap],
@@ -2225,6 +2252,11 @@ function renderDataQuality(data){
     uploaded sheet, so they were joined in from Roomie's activity log by exact Ticket ID, strictly for these same 143 tickets — used only
     to power the time-based charts (creation trend, heatmap, etc.), never to override the sheet's own Duration/SLA values.
     ${withBacklog}/${total} tickets have a backlog-entry timestamp and ${withDone}/${total} have a done timestamp from Roomie.</li>
+    <li><b>Status-timestamp reliability:</b> these status-transition timestamps are only as accurate as when someone manually moved
+    the ticket in the tracker — they are not automatically captured at the moment work actually happened. If a status update is made
+    late, batched, or skipped, the logged timestamp (and any duration calculated from it) will not reflect real-time activity for that
+    ticket. Treat status-transition-based timing (as distinct from the workbook's own Duration/SLA Outcome columns, which come from the
+    team's own tracking) as directionally useful, not as an audit-grade record, until ticket status hygiene improves.</li>
     <li><b>De-duplication:</b> ${total} tickets total, ${dupCheck?"confirmed zero duplicate Ticket IDs":"duplicate IDs detected — investigate"}.</li>
     <li><b>Other inferred fields:</b> Severity, Status, Assignee, Priority, and Category are exactly as entered in the uploaded sheet
     (severity already in "P0 – Critical" style form from the workbook). Long-investigation / simple-Q&amp;A / wrongly-opened flags are
@@ -2236,7 +2268,7 @@ function renderDataQuality(data){
 function renderTable(data){
   document.getElementById("tblCount").textContent = "· "+data.length+" of "+RAW_DATA.length+" tickets";
   const rows = data.slice(0,500);
-  let html = "<tr><th>ID</th><th>Title</th><th>Status</th><th>Priority</th><th>Severity</th><th>Category</th><th>Owner</th><th>Duration (hrs)</th><th>SLA</th></tr>";
+  let html = "<tr><th>ID</th><th>Title</th><th>Status</th><th>Intrepid Priority</th><th>System Severity</th><th>Category</th><th>Owner</th><th>Duration (hrs)</th><th>SLA</th></tr>";
   rows.forEach(d=>{
     const slaPill = d.slaMet===true ? `<span class="pill ok">Met</span>` : d.slaMet===false ? `<span class="pill low">Missed</span>` : `<span class="pill mid">—</span>`;
     html += `<tr><td>${d.id}</td><td>${(d.title||"").slice(0,60)}</td><td>${d.status}</td><td>${d.priority||""}</td><td>${d.severity||""}</td><td>${d.category||""}</td><td>${d.assignee}</td><td>${d.resolutionHours!==null&&d.resolutionHours!==undefined?d.resolutionHours.toFixed(1):"—"}</td><td>${slaPill}</td></tr>`;
@@ -2244,6 +2276,102 @@ function renderTable(data){
   document.getElementById("tblTickets").innerHTML = html;
   if(data.length>500){
     document.getElementById("tblTickets").innerHTML += `<tr><td colspan="9" style="text-align:center;color:var(--text-dim);">Showing first 500 of ${data.length} filtered tickets — narrow filters or export CSV for the full set.</td></tr>`;
+  }
+}
+
+function renderPrioritySeverity(data){
+  destroyChart("chartPrioritySeverity");
+  const sevOrder = s => { const m=/P(\d)/.exec(s||""); return m?+m[1]:99; };
+  const prioOrder = ["High","Medium","Low"];
+  const sevList = uniqueSorted(data.map(d=>d.severity).filter(Boolean)).sort((a,b)=>sevOrder(a)-sevOrder(b));
+  const prios = uniqueSorted(data.map(d=>d.priority).filter(Boolean)).sort((a,b)=>prioOrder.indexOf(a)-prioOrder.indexOf(b));
+  const c = themeColors();
+  const sevColor = g => g.startsWith("P0") ? c.danger : g.startsWith("P1") ? c.warn : g.startsWith("P2") ? c.accent2 : c.good;
+
+  const canvas = document.getElementById("chartPrioritySeverity");
+  if(canvas){
+    const perSev = {}, ticketBuckets = {};
+    sevList.forEach(s=>{ perSev[s] = prios.map(()=>0); ticketBuckets[s] = prios.map(()=>[]); });
+    data.forEach(d=>{
+      if(!d.priority || !d.severity) return;
+      const pi = prios.indexOf(d.priority);
+      if(pi<0 || !perSev[d.severity]) return;
+      perSev[d.severity][pi]++;
+      ticketBuckets[d.severity][pi].push(d);
+    });
+    const datasets = sevList.map(s=>({
+      label: s, data: perSev[s], backgroundColor: sevColor(s),
+      ticketBuckets: ticketBuckets[s], ticketNote: "tickets — "+s+" severity at this Intrepid Priority level"
+    }));
+    charts.chartPrioritySeverity = new Chart(canvas, {
+      type:"bar",
+      data:{ labels: prios, datasets },
+      options: baseOpts({
+        plugins:{ legend:{ position:"bottom" } },
+        scales:{ x:{ stacked:true }, y:{ stacked:true, title:{display:true,text:"Tickets",color:c.dim} } }
+      })
+    });
+  }
+
+  const el = document.getElementById("prioritySeverityStat");
+  if(el){
+    const highPriority = data.filter(d=>d.priority==="High" && d.severity);
+    const mismatched = highPriority.filter(d=>sevOrder(d.severity)>=2);
+    const pct = highPriority.length ? Math.round(mismatched.length/highPriority.length*100) : null;
+    el.innerHTML = pct===null
+      ? "Not enough Priority/Severity data in the current filter to compute this."
+      : `<b style="color:var(--danger);">${mismatched.length} of ${highPriority.length} tickets (${pct}%)</b> marked
+        <b>High</b> Intrepid Priority are <b>P2-Medium or P3-Low</b> System Severity — the client's urgency label and the
+        team's own technical severity assessment frequently disagree. Both fields are exactly as entered in the uploaded
+        workbook; nothing here is inferred.`;
+  }
+}
+
+function renderFixVsRelease(data){
+  destroyChart("chartFixVsRelease");
+  const sevOrder = s => { const m=/P(\d)/.exec(s||""); return m?+m[1]:99; };
+  const eligible = data.filter(d=>d.backlogAt && d.doneAt && d.resolutionHours!==null && d.resolutionHours!==undefined);
+  const sevList = uniqueSorted(eligible.map(d=>d.severity).filter(Boolean)).sort((a,b)=>sevOrder(a)-sevOrder(b));
+  const c = themeColors();
+
+  const canvas = document.getElementById("chartFixVsRelease");
+  if(canvas){
+    const devHrs = [], elapsedHrs = [], devTickets = [], elapsedTickets = [];
+    sevList.forEach(s=>{
+      const rows = eligible.filter(d=>d.severity===s);
+      const avgDev = rows.length ? rows.reduce((a,d)=>a+d.resolutionHours,0)/rows.length : 0;
+      const avgElapsed = rows.length ? rows.reduce((a,d)=>a+((new Date(d.doneAt)-new Date(d.backlogAt))/36e5),0)/rows.length : 0;
+      devHrs.push(+avgDev.toFixed(1));
+      elapsedHrs.push(+avgElapsed.toFixed(1));
+      devTickets.push(rows);
+      elapsedTickets.push(rows);
+    });
+    charts.chartFixVsRelease = new Chart(canvas, {
+      type:"bar",
+      data:{ labels: sevList,
+        datasets:[
+          { label:"Dev Fix Time (workbook Duration, active hrs)", data:devHrs, backgroundColor:c.good,
+            ticketBuckets:devTickets, ticketNote:"tickets — avg dev fix time (workbook Duration) at this severity" },
+          { label:"Total Elapsed to Done (calendar hrs, incl. UAT + release cycle)", data:elapsedHrs, backgroundColor:c.accent2,
+            ticketBuckets:elapsedTickets, ticketNote:"tickets — avg total elapsed time (backlog entry to Done) at this severity" }
+        ]
+      },
+      options: baseOpts({
+        plugins:{ legend:{ position:"bottom" } },
+        scales:{ y:{ title:{display:true,text:"Hours (avg)",color:c.dim} } }
+      })
+    });
+  }
+
+  const el = document.getElementById("fixVsReleaseStat");
+  if(el){
+    const total = data.length || 1;
+    el.innerHTML = eligible.length
+      ? `Based on <b>${eligible.length} of ${total} tickets</b> (${Math.round(eligible.length/total*100)}%) that have both a
+        backlog-entry and a Done timestamp from Roomie — the remaining tickets don't yet have enough status history logged to
+        include here. "Total Elapsed" includes queue time, client UAT/testing, and waiting for the next scheduled production
+        release (releases go out every 2 weeks) — none of which is dev fix time.`
+      : "Not enough tickets with both a backlog-entry and a Done timestamp in the current filter to compute this.";
   }
 }
 
