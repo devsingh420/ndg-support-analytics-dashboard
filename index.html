@@ -1018,6 +1018,12 @@ footer.dashfoot{padding:28px 28px 44px;text-align:center;color:var(--text-faint)
 
 <!-- ============ TAB 09: DIAGRAMS ============ -->
 <!-- ============ TAB 09: DIAGRAMS ============ -->
+<!-- ============ TAB 09: DIAGRAMS ============ -->
+<!-- ============ TAB 09: DIAGRAMS ============ -->
+<!-- ============ TAB 09: DIAGRAMS ============ -->
+<!-- ============ TAB 09: DIAGRAMS ============ -->
+<!-- ============ TAB 09: DIAGRAMS ============ -->
+<!-- ============ TAB 09: DIAGRAMS ============ -->
 <div class="tabpanel" id="tab-diagram">
   <div class="section-head">
     <h2><span class="icon-wrap"><svg class="ic w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4M17.5 10v4M14 17.5h-4M6.5 14v-4"/></svg></span>System Integration Map</h2>
@@ -1025,77 +1031,97 @@ footer.dashfoot{padding:28px 28px 44px;text-align:center;color:var(--text-faint)
   </div>
 
   <div class="narrative-card">
-    <h3><span class="icon-wrap sm"><svg class="ic w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l2.5 2.5L16 9"/></svg></span>Shopify Is the Stable Core — the Work Is in What Connects to It</h3>
-    <p>Shopify itself runs at <b>100% operational health</b> — that part of the stack is not in question. What creates support
-    volume is everything plugged into it: <b>Vercel</b> for the storefront, <b>Omise</b> for payments, <b>Intrepid</b> for how the
-    client logs and prioritizes issues, plus a handful of smaller integrations. None of these are broken — each one simply has
-    its own behavior, timing, and edge cases that need to be understood and kept in sync with the others.</p>
-    <p>That alignment work — understanding how each system behaves, catching the edge cases before a customer does, and
-    translating what happened into a fix — is where Ascend sits. The diagram below shows that flow end to end.</p>
+    <h3><span class="icon-wrap sm"><svg class="ic w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l2.5 2.5L16 9"/></svg></span>Ascend Owns the Integration Layer Between Shopify and Everything Around It</h3>
+    <p>Shopify itself runs at <b>100% operational health</b> — that part of the stack is not in question. Shopify feeds into
+    <b>Ascend</b>, and it's Ascend — not Shopify directly — that connects out to every other system in this stack: <b>Egg CRM</b>
+    (customer &amp; order records), <b>Omise</b> (payments), <b>Vercel</b> (storefront), the <b>database</b> underneath it all,
+    <b>SendGrid</b> (marketing &amp; transactional email), <b>LINE OA</b> (customer messaging), and <b>LON parameters</b>
+    (integration configuration). That integration layer is Ascend's own work: built, understood, and maintained by the team, not
+    something that exists off-the-shelf inside Shopify.</p>
+    <p>None of the connected systems are broken — each has its own behavior, timing, and edge cases. Because Ascend holds that
+    integration layer, it can catch those edge cases and align the handoffs before a customer ever sees them, on the systems
+    customers actually touch: the storefront (Vercel), checkout (Omise), marketing email (SendGrid), and LINE messaging.</p>
     <div style="margin:20px 0 8px;overflow-x:auto;">
-<svg viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<svg viewBox="0 0 1250 850" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
 <defs>
-  <marker id="arrowGrayEnd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-    <path d="M0,0 L10,5 L0,10 z" fill="var(--text-faint)"/>
-  </marker>
-  <marker id="arrowGrayStart" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-    <path d="M10,0 L0,5 L10,10 z" fill="var(--text-faint)"/>
-  </marker>
-  <marker id="arrowWarnEnd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-    <path d="M0,0 L10,5 L0,10 z" fill="var(--warn)"/>
+  <marker id="arrowAccentEnd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
   </marker>
   <marker id="arrowGoodEnd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto">
     <path d="M0,0 L10,5 L0,10 z" fill="var(--good)"/>
   </marker>
 </defs>
-<line x1="271.8" y1="199.8" x2="470.0" y2="78.0" stroke="var(--text-faint)" stroke-width="2" marker-start="url(#arrowGrayStart)" marker-end="url(#arrowGrayEnd)"/>
-<line x1="284.5" y1="233.1" x2="470.0" y2="200.0" stroke="var(--text-faint)" stroke-width="2" marker-start="url(#arrowGrayStart)" marker-end="url(#arrowGrayEnd)"/>
-<line x1="283.0" y1="273.9" x2="470.0" y2="322.0" stroke="var(--text-faint)" stroke-width="2" marker-start="url(#arrowGrayStart)" marker-end="url(#arrowGrayEnd)"/>
-<line x1="268.9" y1="304.7" x2="470.0" y2="444.0" stroke="var(--text-faint)" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowGrayEnd)"/>
-<circle cx="190" cy="250" r="96" fill="var(--good-soft)" stroke="var(--good)" stroke-width="3"/>
-<text x="190" y="236" text-anchor="middle" font-size="21" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Shopify</text>
-<text x="190" y="258" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text-dim)" font-family="var(--font-ui)">Core commerce platform</text>
-<rect x="132" y="270" width="116" height="26" rx="13.0" fill="var(--good-soft)" stroke="var(--good)" stroke-width="1.2"/>
-<text x="190.0" y="286.36" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--good)" font-family="var(--font-ui)">&#10003; 100% Operational</text>
-<rect x="470" y="30" width="250" height="96" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
-<text x="492" y="64" font-size="15.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Vercel</text>
-<text x="492" y="86" font-size="11" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Storefront hosting &amp; frontend delivery</text>
-<rect x="588" y="44" width="118" height="22" rx="11.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
-<text x="647.0" y="58.04" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
-<rect x="470" y="152" width="250" height="96" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
-<text x="492" y="186" font-size="15.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Omise</text>
-<text x="492" y="208" font-size="11" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Payment gateway &amp; transaction processing</text>
-<rect x="588" y="166" width="118" height="22" rx="11.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
-<text x="647.0" y="180.04" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
-<rect x="470" y="274" width="250" height="96" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
-<text x="492" y="308" font-size="15.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Intrepid</text>
-<text x="492" y="330" font-size="11" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Ticketing &amp; issue intake (client-side)</text>
-<rect x="588" y="288" width="118" height="22" rx="11.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
-<text x="647.0" y="302.04" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
-<rect x="470" y="396" width="250" height="96" rx="16" fill="var(--panel2)" stroke="var(--panel-border)" stroke-width="1.5" stroke-dasharray="6,5"/>
-<text x="492" y="430" font-size="15.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">+ Other integrations</text>
-<text x="492" y="452" font-size="11" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Email, fulfillment, marketing &amp; more</text>
-<path d="M720.0,78.0 L790.0,78.0 Q800.0,78.0 800.0,88.0 L800.0,493.0 Q800.0,503.0 790.0,503.0 L180.0,503.0 Q170.0,503.0 170.0,513.0 L170.0,552.0" fill="none" stroke="var(--warn)" stroke-width="2" marker-end="url(#arrowWarnEnd)"/>
-<path d="M720.0,200.0 L790.0,200.0 Q800.0,200.0 800.0,210.0 L800.0,505.0 Q800.0,515.0 790.0,515.0 L360.0,515.0 Q350.0,515.0 350.0,525.0 L350.0,552.0" fill="none" stroke="var(--warn)" stroke-width="2" marker-end="url(#arrowWarnEnd)"/>
-<path d="M720.0,322.0 L790.0,322.0 Q800.0,322.0 800.0,332.0 L800.0,517.0 Q800.0,527.0 790.0,527.0 L540.0,527.0 Q530.0,527.0 530.0,537.0 L530.0,552.0" fill="none" stroke="var(--warn)" stroke-width="2" marker-end="url(#arrowWarnEnd)"/>
-<path d="M720.0,444.0 L790.0,444.0 Q800.0,444.0 800.0,454.0 L800.0,529.0 Q800.0,539.0 790.0,539.0 L720.0,539.0 Q710.0,539.0 710.0,549.0 L710.0,552.0" fill="none" stroke="var(--text-faint)" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowGrayEnd)"/>
-<rect x="60" y="552" width="780" height="112" rx="20" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
-<text x="90" y="590" font-size="16.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Ascend — Admin Operations Layer</text>
-<text x="90" y="614" font-size="12" font-weight="600" fill="var(--text-dim)" font-family="var(--font-ui)">Understands how each system behaves, aligns the handoffs between them, and</text>
-<text x="90" y="634" font-size="12" font-weight="600" fill="var(--text-dim)" font-family="var(--font-ui)">catches edge cases as they happen — before a customer ever sees them.</text>
-<line x1="840" y1="608.0" x2="896" y2="623.0" stroke="var(--good)" stroke-width="2.5" marker-end="url(#arrowGoodEnd)"/>
-<text x="870.0" y="594.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--good)" font-family="var(--font-ui)">resolved pre-impact</text>
-<rect x="900" y="578" width="260" height="90" rx="16" fill="var(--good-soft)" stroke="var(--good)" stroke-width="1.5"/>
-<text x="1030.0" y="616" text-anchor="middle" font-size="15" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Customer Experience</text>
-<text x="1030.0" y="638" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text-dim)" font-family="var(--font-ui)">Protected from integration friction</text>
+<line x1="250" y1="420.0" x2="362.0" y2="420.0" stroke="var(--accent)" stroke-width="3" marker-end="url(#arrowAccentEnd)"/>
+<text x="306.0" y="408.0" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent)" font-family="var(--font-ui)">feeds into</text>
+<line x1="529.9" y1="330.1" x2="700" y2="75.0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAccentEnd)"/>
+<line x1="546.4" y1="343.6" x2="700" y2="190.0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAccentEnd)"/>
+<line x1="566.6" y1="371.7" x2="700" y2="305.0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAccentEnd)"/>
+<line x1="578.0" y1="420.0" x2="700" y2="420.0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAccentEnd)"/>
+<line x1="566.6" y1="468.3" x2="700" y2="535.0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAccentEnd)"/>
+<line x1="546.4" y1="496.4" x2="700" y2="650.0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAccentEnd)"/>
+<line x1="529.9" y1="509.9" x2="700" y2="765.0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAccentEnd)"/>
+<line x1="930" y1="190.0" x2="986" y2="375.0" stroke="var(--good)" stroke-width="2.25" marker-end="url(#arrowGoodEnd)"/>
+<line x1="930" y1="305.0" x2="986" y2="405.0" stroke="var(--good)" stroke-width="2.25" marker-end="url(#arrowGoodEnd)"/>
+<line x1="930" y1="535.0" x2="986" y2="435.0" stroke="var(--good)" stroke-width="2.25" marker-end="url(#arrowGoodEnd)"/>
+<line x1="930" y1="650.0" x2="986" y2="465.0" stroke="var(--good)" stroke-width="2.25" marker-end="url(#arrowGoodEnd)"/>
+<rect x="40" y="372.0" width="210" height="96" rx="16" fill="var(--good-soft)" stroke="var(--good)" stroke-width="2"/>
+<text x="145.0" y="406.0" text-anchor="middle" font-size="17" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Shopify</text>
+<text x="145.0" y="425.0" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--text-dim)" font-family="var(--font-ui)">Core commerce platform</text>
+<rect x="57.0" y="436.0" width="176" height="24" rx="12.0" fill="var(--panel)" stroke="var(--good)" stroke-width="1.2"/>
+<text x="145.0" y="451.2" text-anchor="middle" font-size="10" font-weight="800" fill="var(--good)" font-family="var(--font-ui)">&#10003; 100% Operational</text>
+<circle cx="470" cy="420.0" r="108" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="3.5"/>
+<text x="470" y="396.0" text-anchor="middle" font-size="23" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Ascend</text>
+<text x="470" y="417.0" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text-dim)" font-family="var(--font-ui)">Admin Operations &amp;</text>
+<text x="470" y="433.0" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text-dim)" font-family="var(--font-ui)">Integration Layer</text>
+<rect x="382" y="448.0" width="176" height="24" rx="12.0" fill="var(--panel)" stroke="var(--accent)" stroke-width="1.2"/>
+<text x="470.0" y="463.04" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--accent)" font-family="var(--font-ui)">Holds the Integration IP</text>
+<rect x="700" y="30" width="230" height="90" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
+<text x="720" y="56" font-size="14.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Egg CRM</text>
+<rect x="720" y="64" width="116" height="20" rx="10.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
+<text x="778.0" y="76.944" text-anchor="middle" font-size="9.2" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
+<text x="720" y="105" font-size="10.2" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Customer &amp; order records (client-side)</text>
+<rect x="700" y="145" width="230" height="90" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
+<text x="720" y="171" font-size="14.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Omise</text>
+<rect x="720" y="179" width="116" height="20" rx="10.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
+<text x="778.0" y="191.944" text-anchor="middle" font-size="9.2" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
+<text x="720" y="220" font-size="10.2" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Payment gateway &amp; transaction processing</text>
+<rect x="700" y="260" width="230" height="90" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
+<text x="720" y="286" font-size="14.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Vercel</text>
+<rect x="720" y="294" width="116" height="20" rx="10.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
+<text x="778.0" y="306.944" text-anchor="middle" font-size="9.2" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
+<text x="720" y="335" font-size="10.2" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Storefront hosting &amp; frontend delivery</text>
+<rect x="700" y="375" width="230" height="90" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
+<text x="720" y="401" font-size="14.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Database</text>
+<rect x="720" y="409" width="116" height="20" rx="10.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
+<text x="778.0" y="421.944" text-anchor="middle" font-size="9.2" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
+<text x="720" y="450" font-size="10.2" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Core order &amp; customer data store</text>
+<rect x="700" y="490" width="230" height="90" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
+<text x="720" y="516" font-size="14.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">SendGrid Marketing</text>
+<rect x="720" y="524" width="116" height="20" rx="10.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
+<text x="778.0" y="536.944" text-anchor="middle" font-size="9.2" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
+<text x="720" y="565" font-size="10.2" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Customer marketing &amp; transactional email</text>
+<rect x="700" y="605" width="230" height="90" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
+<text x="720" y="631" font-size="14.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">LINE OA</text>
+<rect x="720" y="639" width="116" height="20" rx="10.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
+<text x="778.0" y="651.944" text-anchor="middle" font-size="9.2" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
+<text x="720" y="680" font-size="10.2" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Customer messaging channel (LINE)</text>
+<rect x="700" y="720" width="230" height="90" rx="16" fill="var(--panel)" stroke="var(--panel-border)" stroke-width="1.5"/>
+<text x="720" y="746" font-size="14.5" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">LON Parameters</text>
+<rect x="720" y="754" width="116" height="20" rx="10.0" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.2"/>
+<text x="778.0" y="766.944" text-anchor="middle" font-size="9.2" font-weight="800" fill="var(--warn)" font-family="var(--font-ui)">&#9888; Needs alignment</text>
+<text x="720" y="795" font-size="10.2" font-weight="600" fill="var(--text-faint)" font-family="var(--font-ui)">Integration configuration &amp; parameters</text>
+<rect x="990" y="345.0" width="220" height="150" rx="16" fill="var(--good-soft)" stroke="var(--good)" stroke-width="1.5"/>
+<text x="1100.0" y="414.0" text-anchor="middle" font-size="14" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Customer</text>
+<text x="1100.0" y="432.0" text-anchor="middle" font-size="14" font-weight="800" fill="var(--text)" font-family="var(--font-ui)">Experience</text>
+<text x="1100.0" y="452.0" text-anchor="middle" font-size="9.8" font-weight="600" fill="var(--text-dim)" font-family="var(--font-ui)">Protected by Ascend alignment</text>
 </svg>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:18px;padding-top:16px;border-top:1px solid var(--panel-border);">
-      <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text-dim);"><span style="width:9px;height:9px;border-radius:50%;background:var(--good);flex:none;"></span>Core platform — fully operational</span>
-      <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text-dim);"><span style="width:9px;height:9px;border-radius:50%;background:var(--warn);flex:none;"></span>Connected system — needs ongoing alignment</span>
-      <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text-dim);"><span style="width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none;"></span>Ascend — where alignment happens</span>
+      <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text-dim);"><span style="width:9px;height:9px;border-radius:50%;background:var(--good);flex:none;"></span>Shopify / Customer — core platform &amp; customer-facing touchpoints</span>
+      <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text-dim);"><span style="width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none;"></span>Ascend — owns the integration layer (IP)</span>
+      <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text-dim);"><span style="width:9px;height:9px;border-radius:50%;background:var(--warn);flex:none;"></span>Connected system — needs Ascend's alignment</span>
     </div>
-    <p class="disclaimer">Illustrative system map based on the integrations discussed with the team — not a technical infrastructure diagram. Intended to frame, in a board-level view, why "connected system" issues surface as support tickets even when Shopify itself is fully healthy.</p>
+    <p class="disclaimer">Illustrative system map based on the integrations discussed with the team — not a technical infrastructure diagram. Intended to frame, in a board-level view, why "connected system" issues surface as support tickets even when Shopify itself is fully healthy, and why that integration work sits with Ascend.</p>
   </div>
 </div>
 
